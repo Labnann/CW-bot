@@ -1,7 +1,13 @@
 require('dotenv').config();
+
+
 const fetch= require("node-fetch")
 
-const { Client, MessageFlags }=require('discord.js')
+
+const { Client, MessageFlags }=require('discord.js');
+
+
+
 
 const client =new  Client();
 
@@ -10,10 +16,29 @@ const PREFIX="$"
 
 
 
-// fetch quotes from an api
+// fetch weather data from an api
+function getWeather(msg){
+  fetch("http://127.0.0.1:8001/getWeather",
+  {
+    method:'post',
+    body: JSON.stringify({city:"Dhaka"}),
+    headers: { 'Accept':'application/json','content-type': 'application/json' }
+
+}).then(res=>{
+   return res.json()
+   
+  }).then(json=>{
+    console.log(json)
+    msg.channel.send(JSON.stringify(json))
+  })
+  }
+
+
+
+//fetch quotes from api
 function getQuote(){
     return fetch("https://zenquotes.io/api/random")
-  
+
     .then(res=>{
       return res.json()
     })
@@ -72,6 +97,11 @@ client.on('message', async(msg)=>{
         if(CMD_NAME==="inspire"){
             getQuote().then(quote=>msg.channel.send(quote))
           }
+        if(CMD_NAME==="weather"){
+          console.log("weather called")
+          getWeather(msg)
+          
+        }
  
 
     } 
@@ -80,4 +110,4 @@ client.on('message', async(msg)=>{
     
 })
 
-client.login("ODcxMzAwMzU0NjQ0NTA4Njky.YQZTsA.gM7bh4YsJn21ZKbw3La1x4qa6Gs");
+client.login("ODcxMzAwMzU0NjQ0NTA4Njky.YQZTsA.VLJyRxJjHg1WqZPnmZu4IDD3Yd0");
