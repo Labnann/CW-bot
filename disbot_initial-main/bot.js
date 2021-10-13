@@ -1,4 +1,7 @@
-require('dotenv').config();
+ require('dotenv').config();
+ const environment=require('./.env')
+
+ 
 
 
 const fetch= require("node-fetch")
@@ -17,6 +20,7 @@ const PREFIX="$"
 
 // fetch weather data from an api
 function getWeather(msg){
+  console.log(process.env)
   const splitted_data= msg.content.split(/ +/g)
   console.log(splitted_data);
   fetch("http://127.0.0.1:8001/getWeather",
@@ -131,4 +135,4 @@ client.on('message', async(msg)=>{
     
 })
 
-client.login("ODcxMzAwMzU0NjQ0NTA4Njky.YQZTsA.2YQJmZTTrK092JBkEHC5cU4mLr4");
+client.login(environment.DISCORD);
