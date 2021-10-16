@@ -36,9 +36,10 @@ function getWeather(msg){
       console.log(data)
   
     const bot_message="Temperature  ="+data.currently.temperature+" °C"+"\n"+
-                        "Pressure  ="+data.currently.pressure+" hPa"+"\n"+
+                        "Air-pressure  ="+data.currently.pressure+" hPa"+"\n"+
                         "Windspeed  ="+data.currently.windSpeed+" mph"+"\n"+
-                        "Precip-type  ="+data.currently.precipType
+                        "Humidity  ="+data.currently.humidity+"\n"+
+                        "Skyview  ="+data.currently.icon
 
     
     msg.channel.send((bot_message))
