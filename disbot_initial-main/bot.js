@@ -5,10 +5,7 @@
 
 
 const fetch= require("node-fetch")
-
-
 const { Client, MessageFlags }=require('discord.js');
-
 const client =new  Client();
 
 
@@ -16,31 +13,42 @@ const client =new  Client();
 const PREFIX="$"
 
 
-
-
-// fetch weather data from an api
+//fetch weather data from an api
 function getWeather(msg){
-  console.log(process.env)
+  
   const splitted_data= msg.content.split(/ +/g)
   console.log(splitted_data);
-  fetch("http://127.0.0.1:8001/getWeather",
+   fetch("http://127.0.0.1:8001/getWeather",
   {
     method:'post',
     body: JSON.stringify({city:splitted_data[1]}),
     headers: { 'Accept':'application/json','content-type': 'application/json' }
 
-}).then(res=>{
-   return res.json()
-   
-  }).then(json=>{
-    msg.channel.send(JSON.stringify(json))
-  })
+  }).then(res=>{
+
+    return res.json()
+
+   })
+
+
+     // this is the actual section where discord bot send back the reply to the server
+    .then(data=>{        
+      console.log(data)
+  
+    const bot_message="Temperature  ="+data.currently.temperature+" °C"+"\n"+
+                        "Pressure  ="+data.currently.pressure+" hPa"+"\n"+
+                        "Windspeed  ="+data.currently.windSpeed+" mph"+"\n"+
+                        "Precip-type  ="+data.currently.precipType
+
+    
+    msg.channel.send((bot_message))
+    
+    //msg.channel.send(JSON.stringify(data))
+
+
+    })
+ 
   }
-
-
-
-
-
 
 //fetch quotes from api
 function getQuote(){
@@ -81,38 +89,6 @@ client.on('message', async(msg)=>{
         if(CMD_NAME==='depressed'){
             msg.channel.send(" hang in there")
         }
-
-
-
-      //  bot sending back a remote file to server 
-      //  if(CMD_NAME==='isaak'){
-      //      message.channel.send({
-      //          files: ['https://deadspace.fandom.com/wiki/Isaac_Clarke']
-      //        })
-      //          .then(console.log)
-      //          .catch(console.error);
-      //
-      //      }
-      
-      
-
-
-      // bot sending back a local file to server  
-      //  if(CMD_NAME==='sadman'){
-      //      message.channel.send({
-      //          files: [{
-      //            attachment: 'E:/exercise_lab_online/sadman-donkey.jpg',
-      //            name: 'sadman-donkey.jpg'
-      //          }]
-      //        })
-      //          .then(console.log)
-      //          .catch(console.error);
-      //
-      //  }
-
-
-
-
 
          //for returning quotes
         if(CMD_NAME==="inspire"){
