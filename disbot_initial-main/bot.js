@@ -18,7 +18,7 @@ function getWeather(msg){
   
   const splitted_data= msg.content.split(/ +/g)
   console.log(splitted_data);
-   fetch("http://127.0.0.1:8001/getWeather",
+   fetch("http://127.0.0.1:8001/getWeather/hourly",
   {
     method:'post',
     body: JSON.stringify({city:splitted_data[1]}),
